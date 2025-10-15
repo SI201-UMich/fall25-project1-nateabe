@@ -22,7 +22,7 @@ def avg_rainfall_by_fertilizer(data):
         rainfall = float(row["Rainfall_mm"])
         used = row["Fertilizer_Used"].strip().lower()
 
-        if used == "yes":
+        if used == "true":
             total_with += rainfall
             count_with += 1
         else:
@@ -42,10 +42,10 @@ def avg_yield_by_fertilizer(data):
     count_without = 0
 
     for row in data:
-        yield_val = float(row["Yield_tons_per_h"])
+        yield_val = float(row["Yield_tons_per_hectare"])
         used = row["Fertilizer_Used"].strip().lower()
 
-        if used == "yes":
+        if used == "true":
             total_with += yield_val
             count_with += 1
         else:
@@ -56,6 +56,7 @@ def avg_yield_by_fertilizer(data):
     avg_without = total_without / count_without if count_without else 0
 
     return avg_with, avg_without
+
 def write_results_to_file(rainfall_result, yield_result, filename="results.txt"):
     """Writes the analysis results to a text file."""
     with open(filename, "w") as file:
@@ -65,3 +66,15 @@ def write_results_to_file(rainfall_result, yield_result, filename="results.txt")
         file.write(f"Average Rainfall (No Fertilizer): {rainfall_result[1]:.2f} mm\n\n")
         file.write(f"Average Yield (Fertilizer Used): {yield_result[0]:.2f} tons/ha\n")
         file.write(f"Average Yield (No Fertilizer): {yield_result[1]:.2f} tons/ha\n")
+def main():
+    data = read_csv_to_dict("crop_yield.csv")
+
+    rainfall_result = avg_rainfall_by_fertilizer(data)
+    yield_result = avg_yield_by_fertilizer(data)
+
+    write_results_to_file(rainfall_result, yield_result)
+
+    print("Analysis complete! Results written to results.txt")
+
+if __name__ == "__main__":
+    main()
