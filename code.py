@@ -56,3 +56,12 @@ def avg_yield_by_fertilizer(data):
     avg_without = total_without / count_without if count_without else 0
 
     return avg_with, avg_without
+def write_results_to_file(rainfall_result, yield_result, filename="results.txt"):
+    """Writes the analysis results to a text file."""
+    with open(filename, "w") as file:
+        file.write("Crop Yield Data Analysis\n")
+        file.write("=========================\n\n")
+        file.write(f"Average Rainfall (Fertilizer Used): {rainfall_result[0]:.2f} mm\n")
+        file.write(f"Average Rainfall (No Fertilizer): {rainfall_result[1]:.2f} mm\n\n")
+        file.write(f"Average Yield (Fertilizer Used): {yield_result[0]:.2f} tons/ha\n")
+        file.write(f"Average Yield (No Fertilizer): {yield_result[1]:.2f} tons/ha\n")
